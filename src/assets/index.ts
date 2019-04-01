@@ -14,5 +14,6 @@ export const images = {
         pos: require('./images/pos.png'),
         sicepat: require('./images/sicepat.png'),
         tiki: require('./images/tiki.png'),
+        wahana: require('./images/wahana.png'),
     }
 }

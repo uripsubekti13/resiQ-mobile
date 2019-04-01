@@ -66,8 +66,8 @@ export class Connote extends Component<Props, State> {
     const onPress = () => this.setState({ selectedRecentIndex: !show ? index : null });
     const onTrack = expedition
       ? () => {
-          if (expedition && expedition.onSearch) expedition.onSearch(item.cnote);
-        }
+        if (expedition && expedition.onSearch) expedition.onSearch(item.cnote);
+      }
       : undefined;
     return (
       <Observer key={index}>
@@ -96,7 +96,7 @@ export class Connote extends Component<Props, State> {
                 </Text>
               </View>
               {show && (
-                <TouchableOpacity onPress={onTrack} style={{flex: 1}}>
+                <TouchableOpacity onPress={onTrack} style={{ flex: 1 }}>
                   <View
                     style={{
                       backgroundColor: "rgb(79, 182, 185)",
@@ -169,14 +169,15 @@ export class Connote extends Component<Props, State> {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ paddingHorizontal: 6, marginTop: 20 }}>
-            <Text style={{ fontFamily: fonts.titillium.bold, color: "#fff", fontSize: 25 }}>Recents</Text>
-            <FlatList
-              ListFooterComponent={<View style={{ height: 100 }} />}
-              data={storage.jsRecents}
-              renderItem={this.renderItem}
-            />
-          </View>
+          {storage.jsRecents.length > 0 &&
+            <View style={{ paddingHorizontal: 6, marginTop: 20 }}>
+              <Text style={{ fontFamily: fonts.titillium.bold, color: "#fff", fontSize: 25 }}>Recents</Text>
+              <FlatList
+                ListFooterComponent={<View style={{ height: 100 }} />}
+                data={storage.jsRecents}
+                renderItem={this.renderItem}
+              />
+            </View>}
         </View>
         <ExpeditionModal isVisible={this.state.showModal} onClosed={this.doCloseModal} />
         <Loading isVisible={connoteStore.isLoading} />

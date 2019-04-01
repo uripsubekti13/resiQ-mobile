@@ -4,7 +4,8 @@ import {
   jntRestService,
   posRestService,
   sicepatRestService,
-  tikiRestService
+  tikiRestService,
+  wahanaRestService
 } from "../../services/rest";
 import { ImageSourcePropType, Alert } from "react-native";
 import { images } from "../../assets";
@@ -107,7 +108,7 @@ class ConnoteStore {
                     title: d.acceptTime,
                     description: `${d.city}\n${d.state}\n[${d.scanstatus} ${
                       d.signer === "" ? d.deliveryName : d.signer
-                    }]`
+                      }]`
                   };
                 });
               }
@@ -235,6 +236,45 @@ class ConnoteStore {
             }
             detailStore.result = data;
             await storage.add({ cnote, expeditionId: "tiki" });
+            navigationService.navigate("Detail");
+          } catch (error) {
+            Alert.alert("Warning !", error);
+          } finally {
+            this.isLoading = false;
+          }
+        }
+      },
+      {
+        id: "wahana",
+        name: "WAHANA",
+        logo: images.expedition.wahana,
+        onSearch: async (cnote: string) => {
+          try {
+            this.isLoading = true;
+            const result = await wahanaRestService.getTracking(cnote);
+            const data: Detail = {
+              main: undefined,
+              timeline: undefined
+            };
+            if (result && result.data) {
+              data.main = {
+                cnote: result.data.no,
+                date: result.data.tanggal,
+                shipper: result.data.pengirim,
+                receiver: result.data.tujuan,
+                receiverAddress: result.data.kota_tujuan
+              };
+            }
+            if (result && result.riwayat && result.riwayat.length > 0) {
+              data.timeline = result.riwayat.map(r => {
+                return {
+                  title: r.tanggal,
+                  description: r.keterangan
+                };
+              });
+            }
+            detailStore.result = data;
+            await storage.add({ cnote, expeditionId: "wahana" });
             navigationService.navigate("Detail");
           } catch (error) {
             Alert.alert("Warning !", error);
