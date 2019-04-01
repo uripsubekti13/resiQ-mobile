@@ -33,6 +33,11 @@ class Storage {
       const recents = _.reverse(toJS(this.recents)).slice(0, 5);
       return recents;
   }
+
+  async remove(recent: Recent) {
+    this.recents = toJS(this.recents).filter((r) => (r.cnote !== recent.cnote) && (r.expeditionId !== recent.expeditionId));
+    await AsyncStorage.setItem(KEY, JSON.stringify(toJS(this.recents)));
+  }
 }
 
 export const storage = new Storage();

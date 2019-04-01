@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, StyleSheet, Image, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Image, FlatList, TouchableOpacity, Alert } from "react-native";
 import { tabBarIcon } from "../../shared/tabbar.icon";
 import { Container } from "../../shared/container";
 import { COLOR } from "../../constant/theme.constant";
@@ -66,13 +66,27 @@ export class Connote extends Component<Props, State> {
     const onPress = () => this.setState({ selectedRecentIndex: !show ? index : null });
     const onTrack = expedition
       ? () => {
-        if (expedition && expedition.onSearch) expedition.onSearch(item.cnote);
-      }
+          if (expedition && expedition.onSearch) expedition.onSearch(item.cnote);
+        }
       : undefined;
+    const onLongPress = () => {
+      Alert.alert("Warning!", "Are you sure want to delete this cnote?", [
+        {
+          text: 'No',
+          onPress: () => {}
+        },
+        {
+          text: "Yes",
+          onPress: async () => {
+            await storage.remove(item);
+          }
+        },
+      ]);
+    };
     return (
       <Observer key={index}>
         {() => (
-          <TouchableOpacity onPress={onPress}>
+          <TouchableOpacity onPress={onPress} onLongPress={onLongPress}>
             <View
               style={{
                 flex: 1,
@@ -169,7 +183,7 @@ export class Connote extends Component<Props, State> {
               </TouchableOpacity>
             </View>
           </View>
-          {storage.jsRecents.length > 0 &&
+          {storage.jsRecents.length > 0 && (
             <View style={{ paddingHorizontal: 6, marginTop: 20 }}>
               <Text style={{ fontFamily: fonts.titillium.bold, color: "#fff", fontSize: 25 }}>Recents</Text>
               <FlatList
@@ -177,7 +191,8 @@ export class Connote extends Component<Props, State> {
                 data={storage.jsRecents}
                 renderItem={this.renderItem}
               />
-            </View>}
+            </View>
+          )}
         </View>
         <ExpeditionModal isVisible={this.state.showModal} onClosed={this.doCloseModal} />
         <Loading isVisible={connoteStore.isLoading} />
