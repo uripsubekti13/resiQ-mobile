@@ -8,7 +8,7 @@ export default createMaterialBottomTabNavigator(
   },
   {
     barStyle: { backgroundColor: "#fff" },
-    activeTintColor: COLOR.MAIN.TAB.ACTIVE,
+    activeTintColor: "rgb(79, 182, 185)",
     inactiveTintColor: COLOR.MAIN.TAB.INACTIVE
   }
 );
