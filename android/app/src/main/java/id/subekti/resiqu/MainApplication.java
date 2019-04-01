@@ -1,4 +1,4 @@
-package id.subekti.cekresi;
+package id.subekti.resiqu;
 
 import android.app.Application;
 
