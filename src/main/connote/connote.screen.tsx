@@ -17,6 +17,7 @@ import * as _ from "lodash";
 import { ExpeditionModal } from "./expedition.modal";
 import { Loading } from "../../shared/loading";
 import { storage, Recent } from "../storage/storage";
+import { Ads } from "../../shared/ads";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -196,6 +197,7 @@ export class Connote extends Component<Props, State> {
         </View>
         <ExpeditionModal isVisible={this.state.showModal} onClosed={this.doCloseModal} />
         <Loading isVisible={connoteStore.isLoading} />
+        <Ads />
       </Container>
     );
   }

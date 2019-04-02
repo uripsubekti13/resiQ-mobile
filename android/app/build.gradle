@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-admob')
     compile project(':@react-native-community_async-storage')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-vector-icons')
